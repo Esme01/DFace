@@ -23,6 +23,7 @@ class WIDER(object):
             for file, bbx in zip(self.file_list[event_idx][0],
                                  self.face_bbx_list[event_idx][0]):
                 f = file[0][0].encode('utf-8')
+                # path_of_image = os.path.join(self.path_to_image, e, f).decode() + ".jpg"
                 path_of_image = os.path.join(self.path_to_image, e, f) + ".jpg"
 
                 bboxes = []

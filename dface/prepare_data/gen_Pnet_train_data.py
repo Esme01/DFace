@@ -1,22 +1,26 @@
 import argparse
+import sys
+
 import numpy as np
 import cv2
 import os
 import numpy.random as npr
+
+sys.path.append('D:/Junior/人工神经网络/pytorch-face/DFace')
 from dface.core.utils import IoU
 import dface.config as config
 
 def gen_pnet_data(data_dir,anno_file,prefix):
 
-    neg_save_dir =  os.path.join(data_dir,"12/negative")
-    pos_save_dir =  os.path.join(data_dir,"12/positive")
+    neg_save_dir = os.path.join(data_dir,"12/negative")
+    pos_save_dir = os.path.join(data_dir,"12/positive")
     part_save_dir = os.path.join(data_dir,"12/part")
 
     for dir_path in [neg_save_dir,pos_save_dir,part_save_dir]:
         if not os.path.exists(dir_path):
             os.makedirs(dir_path)
 
-    save_dir = os.path.join(data_dir,"pnet")
+    save_dir = os.path.join(data_dir, "pnet")
     if not os.path.exists(save_dir):
         os.mkdir(save_dir)
 
@@ -40,10 +44,11 @@ def gen_pnet_data(data_dir,anno_file,prefix):
     box_idx = 0
     for annotation in annotations:
         annotation = annotation.strip().split(' ')
-        im_path = os.path.join(prefix,annotation[0])
+        im_path = os.path.join(prefix, annotation[0])
         bbox = list(map(float, annotation[1:]))
         boxes = np.array(bbox, dtype=np.int32).reshape(-1, 4)
         img = cv2.imread(im_path)
+        print(im_path)
         idx += 1
         if idx % 100 == 0:
             print(idx, "images done")
@@ -69,6 +74,7 @@ def gen_pnet_data(data_dir,anno_file,prefix):
                 cv2.imwrite(save_file, resized_im)
                 n_idx += 1
                 neg_num += 1
+
 
 
         for box in boxes:
@@ -172,4 +178,14 @@ def parse_args():
 
 if __name__ == '__main__':
     args = parse_args()
-    gen_pnet_data(args.traindata_store,args.annotation_file,args.prefix_path)
+    # gen_pnet_data('D:/Junior/人工神经网络/pytorch-face/dataset/WIDER_train/0--Parade',args.annotation_file, 'D:/Junior/人工神经网络/pytorch-face/DFace/tmp_data')
+    gen_pnet_data(args.traindata_store, args.annotation_file, args.prefix_path)
+    # D: / Junior / 人工神经网络 / pytorch - face / DFace / dface / data / wider
+    # D:\Junior\人工神经网络\pytorch-face\DFace\dface\prepare_data\widerface_annotation_gen
+    # D:/Junior/人工神经网络/pytorch-face/DFace/anno_store/wider_origin_anno.txt
+    # D:/Junior/人工神经网络/pytorch-face/DFace/dface/prepare_data/widerface_annotation_gen/wider_face_train.mat
+    # D:/Junior/人工神经网络/pytorch-face/DFace/tmp_data
+    # D:/Junior/人工神经网络/pytorch-face/dataset/WIDER_train/images/0--Parade
+    #D:\Junior\人工神经网络\pytorch-face\dataset\WIDER_train\images\0--Parade
+    # D:\Junior\人工神经网络\pytorch - face\DFace
+    # D:/Junior/人工神经网络/pytorch-face/DFace
